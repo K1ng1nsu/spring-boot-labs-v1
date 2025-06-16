@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.ch3examples.mapper.PostMapper">
+
+    <insert id="save" parameterType="com.example.ch3examples.domain.Post" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO posts (title, body)
+        VALUES (#{title}, #{body})
+    </insert>
+
+<!--    <select id="findAll" resultType="com.example.ch3examples.domain.Post">-->
+<!--        SELECT id, title, body-->
+<!--        FROM posts-->
+<!--    </select>-->
+
+    <select id="findById" parameterType="long" resultType="com.example.ch3examples.domain.Post">
+        SELECT id, title, body
+        FROM posts
+        WHERE id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.example.ch3examples.domain.Post">
+        UPDATE posts
+        SET title = #{title},
+            body = #{body}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM posts
+        WHERE id = #{id}
+    </delete>
+
+    <select id="findAll" parameterType="com.example.ch3examples.dto.PostSearchRequest" resultType="com.example.ch3examples.domain.Post">
+        SELECT *
+        FROM posts
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (title LIKE CONCAT('%', #{keyword}, '%') OR body LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="count" parameterType="com.example.ch3examples.dto.PostSearchRequest" resultType="int">
+        SELECT COUNT(*)
+        FROM posts
+        <where>
+            <if test="keyword != null and keyword != ''">
+                (title LIKE CONCAT('%', #{keyword}, '%') OR body LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+</mapper>
