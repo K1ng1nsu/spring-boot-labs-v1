@@ -1,8 +1,8 @@
-package com.captainyun7.ch4examples.v1.service;
+package com.captainyun7.ch4examples.v2.service;
 
-import com.captainyun7.ch4examples.v1.domain.Post;
-import com.captainyun7.ch4examples.v1.dto.*;
-import com.captainyun7.ch4examples.v1.repository.PostRepository;
+import com.captainyun7.ch4examples.v2.domain.Post;
+import com.captainyun7.ch4examples.v2.dto.*;
+import com.captainyun7.ch4examples.v2.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,10 +27,12 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> getAllPosts() {
-        return repository.findAll().stream()
-                .map(PostResponse::from)
-                .toList();
+    public PostPageResponse search(PostSearchRequest request) {
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+        Page<PostResponse> page = repository.findByTitleContaining(request.getKeyword(), pageable)
+                .map(PostResponse::from);
+
+        return PostPageResponse.from(page.getContent(), request, page.getTotalElements());
     }
 
     @Transactional(readOnly = true)
@@ -52,5 +54,6 @@ public class PostService {
     public void deletePost(Long id) {
         repository.deleteById(id);
     }
+
 
 }

@@ -1,9 +1,8 @@
-package com.captainyun7.ch4examples.v1.controller;
+package com.captainyun7.ch4examples.v2.controller;
 
-import com.captainyun7.ch4examples.v1.dto.*;
-import com.captainyun7.ch4examples.v1.service.PostService;
+import com.captainyun7.ch4examples.v2.dto.*;
+import com.captainyun7.ch4examples.v2.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +20,6 @@ public class PostController {
         return ResponseEntity.ok(service.createPost(request));
     }
 
-    @GetMapping
-    public ResponseEntity<List<PostResponse>> getAll() {
-        return ResponseEntity.ok(service.getAllPosts());
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<PostResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getPostById(id));
@@ -40,6 +34,11 @@ public class PostController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deletePost(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<PostPageResponse> searchPosts(PostSearchRequest search) {
+        return ResponseEntity.ok(service.search(search));
     }
 
 }

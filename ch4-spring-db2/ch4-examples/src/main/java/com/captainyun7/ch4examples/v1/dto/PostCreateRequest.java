@@ -1,9 +1,13 @@
 package com.captainyun7.ch4examples.v1.dto;
 
 import com.captainyun7.ch4examples.v1.domain.Post;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PostCreateRequest {
     private String title;
     private String body;
