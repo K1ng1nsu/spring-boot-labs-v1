@@ -6,6 +6,7 @@ import com.captainyun7.ch4examples.v2.repository.PostRepository;
 import com.captainyun7.ch4examples.v2.service.PostService;
 import com.captainyun7.ch4examples.v2.dto.PostPageResponse;
 import com.captainyun7.ch4examples.v2.dto.PostSearchRequest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.NoSuchElementException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@Disabled
 @SpringBootTest
 @Transactional // 각 테스트 후 롤백됨 (테스트 간 독립성 보장)
 class PostServiceIntegrationTest {

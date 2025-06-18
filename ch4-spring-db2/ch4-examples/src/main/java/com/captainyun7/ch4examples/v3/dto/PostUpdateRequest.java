@@ -1,4 +1,4 @@
-package com.captainyun7.ch4examples.v2.dto;
+package com.captainyun7.ch4examples.v3.dto;
 
 import com.captainyun7.ch4examples.v1.domain.Post;
 import lombok.AllArgsConstructor;
