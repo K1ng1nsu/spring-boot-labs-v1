@@ -1,13 +1,10 @@
-package com.captainyun7.ch4examples.v2.controller;
+package com.captainyun7.ch4examples.v3.controller;
 
-import com.captainyun7.ch4examples.v2.dto.PostUpdateRequest;
-import com.captainyun7.ch4examples.v2.dto.*;
-import com.captainyun7.ch4examples.v2.service.PostService;
+import com.captainyun7.ch4examples.v3.dto.*;
+import com.captainyun7.ch4examples.v3.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

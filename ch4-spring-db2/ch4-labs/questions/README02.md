@@ -1,33 +1,69 @@
-## Todo list API - 검색 기능 확장 실습 과제
+## 독서 리뷰 게시판 API – 검색 기능 확장 실습
 
-* 기존 Spring Data JPA 기반 Todo API에 **검색 기능**을 추가해보세요.
-* 특정 키워드를 포함한 할 일 제목(title)을 조회할 수 있어야 합니다.
+- 지금까지 구현한 리뷰 게시판에 검색 조건과 페이징 기능능을 추가해보세요.
+
+### 공통 요청 형식
+
+* **GET** `/reviews`
+* **Query Parameters**:
+
+    * `bookTitle`: 도서 제목 키워드
+    * `author`: 리뷰 작성자
+    * `rating`: 정확한 평점
+    * `minRating`, `maxRating`: 평점 범위
+    * `page`, `size`: 페이징 처리
 
 ---
 
-### 1. 제목으로 할 일 검색 (Search by Title)
+### 1. 도서 제목 키워드 검색 + 페이징
 
-* **GET** `/todos?keyword=공부`
-* 응답: `200 OK`
+* `GET /reviews?bookTitle=해리포터&page=0&size=10`
+* 예: `"해리포터"`가 제목에 포함된 도서 리뷰 검색
 
-```json
-[
-  { "id": 1, "title": "스프링부트 공부하기", "completed": false },
-  { "id": 5, "title": "DB 공부 정리하기", "completed": true }
-]
+---
+
+### 2. 작성자 + 평점 필터링
+
+* `GET /reviews?author=booklover99&rating=5&page=0&size=10`
+
+---
+
+### 3. 평점 범위 검색
+
+* `GET /reviews?minRating=3&maxRating=5&page=0&size=10`
+
+---
+
+### 4. 통합 검색 API 설계 예시
+
+* **GET** `/reviews`
+* 모든 조건은 QueryParam으로 조합:
+
+  ```
+  /reviews?author=yun&keyword=마법&minRating=3&page=0&size=10
+  ```
+
+#### 📦 `ReviewSearchRequest` DTO 예시
+
+```java
+public class ReviewSearchRequest {
+    private String author;
+    private String bookTitle;
+    private String keyword;
+    private Integer rating;
+    private Integer minRating;
+    private Integer maxRating;
+    private int page = 0;
+    private int size = 10;
+}
 ```
-
 ---
 
-### 2. 검색 조건이 없을 경우 전체 목록 반환
+### 5. 최종 Controller 예시
 
-* **GET** `/todos`
-* 응답: `200 OK` (전체 할 일 목록과 동일)
-
-```json
-[
-  { "id": 1, "title": "스프링부트 공부하기", "completed": false },
-  { "id": 2, "title": "리액트 수업 듣기", "completed": true },
-  { "id": 5, "title": "DB 공부 정리하기", "completed": true }
-]
+```java
+@GetMapping("/reviews")
+public Page<ReviewResponse> searchReviews(@ModelAttribute ReviewSearchRequest request) {
+    return reviewService.search(request);
+}
 ```
