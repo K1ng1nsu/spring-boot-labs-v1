@@ -1,8 +1,8 @@
-package com.captainyun7.ch4examples.v3.service;
+package com.captainyun7.ch4examples.v4.service;
 
-import com.captainyun7.ch4examples.v3.domain.Post;
-import com.captainyun7.ch4examples.v3.dto.*;
-import com.captainyun7.ch4examples.v3.repository.PostRepository;
+import com.captainyun7.ch4examples.v4.domain.Post;
+import com.captainyun7.ch4examples.v4.dto.post.*;
+import com.captainyun7.ch4examples.v4.repository.post.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

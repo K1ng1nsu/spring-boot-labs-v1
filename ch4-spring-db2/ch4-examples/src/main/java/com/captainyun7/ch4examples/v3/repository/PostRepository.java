@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Long>, PostQueryRepository {
     // 제목에 검색어 포함
     Page<Post> findByTitleContaining(String keyword, Pageable pageable);
     // 작성자와 검색어 일치
