@@ -1,4 +1,4 @@
-package com.captainyun7.ch4examples.v4.domain;
+package com.captainyun7.ch4examples.v5.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,8 +34,4 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    public void addComment(Comment comment) {
-        comments.add(comment);
-        comment.setPost(this); // 연관관계 주인도 설정해줘야 DB에 반영됨
-    }
 }
