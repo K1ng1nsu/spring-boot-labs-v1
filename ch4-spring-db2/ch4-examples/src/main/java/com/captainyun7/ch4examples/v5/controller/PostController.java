@@ -1,5 +1,6 @@
 package com.captainyun7.ch4examples.v5.controller;
 
+import com.captainyun7.ch4examples.v5.dto.comment.CommentSearchRequest;
 import com.captainyun7.ch4examples.v5.dto.post.*;
 import com.captainyun7.ch4examples.v5.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +19,16 @@ public class PostController {
         return ResponseEntity.ok(service.createPost(request));
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<PostResponse> getById(@PathVariable Long id) {
-//        return ResponseEntity.ok(service.getPostById(id));
-//    }
-
     @GetMapping("/{id}")
     public ResponseEntity<PostWithCommentsResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getPostById(id));
+    }
+
+    @GetMapping("/{id}/paging")
+    public ResponseEntity<PostWithCommentsResponsePaging> getPostWithPaginatedComments(
+            @PathVariable Long id
+            , @ModelAttribute CommentSearchRequest commentRequest) {
+        return ResponseEntity.ok(service.getPostWithPaginatedComments(id, commentRequest));
     }
 
     @PutMapping("/{id}")
