@@ -3,7 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/post_db
     username: root
     password: pass1234
-    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
@@ -11,11 +10,5 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-    format-sql: true
-
-  devtools:
-    restart:
-      enabled: false
-    livereload:
-      enabled: off
+      show-sql: true
+      format-sql: true
