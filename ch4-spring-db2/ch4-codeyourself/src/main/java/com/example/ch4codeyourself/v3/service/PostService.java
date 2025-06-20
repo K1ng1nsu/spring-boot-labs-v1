@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 @Transactional
 public class PostService {
@@ -26,35 +26,46 @@ public class PostService {
         return PostResponse.from(saved);
     }
 
+//    @Transactional(readOnly = true)
+//    public PostPageResponse getAllPosts(PostSearchRequest search) {
+//        Pageable pageable = PageRequest.of(search.getPage(), search.getSize());
+//
+//        // if author is not null -> findByAuthor
+//        // if keyword is not null -> findByTitleContaining
+//
+//        Page<PostResponse> page;
+//
+//        if (search.getKeyword() != null && search.getAuthor() != null) {
+////            page = postRepository.findByTitleContainsAndAuthor(search.getKeyword(), search.getAuthor(), pageable).map(PostResponse::from);
+//            page = postRepository.searchByAuthorAndTitle(search.getAuthor(), search.getKeyword(), pageable).map(PostResponse::from);
+//        } else if (search.getKeyword() != null) {
+//            page = postRepository.findByTitleContaining(search.getKeyword(), pageable)
+//                    .map(PostResponse::from);
+//        } else if (search.getAuthor() != null) {
+//            page = postRepository.findByAuthor(search.getAuthor(), pageable).map(PostResponse::from);
+//        } else if (search.getCreatedAt() != null) {
+
+    /// /            page = postRepository.findByCreatedAtAfter(search.getCreatedAt(), pageable).map(PostResponse::from);
+    /// /            page = postRepository.searchByCreatedAtAfter(search.getCreatedAt(), pageable).map(PostResponse::from);
+//            page = postRepository.searchByCreatedAtWithQueryDSL(search.getCreatedAt(), pageable).map(PostResponse::from);
+//        } else {
+//            page = postRepository.findAll(pageable).map(PostResponse::from);
+//        }
+//
+//        //SELECT
+//
+//        return PostPageResponse.from(page.getContent(), search, page.getTotalElements());
+//    }
     @Transactional(readOnly = true)
-    public PostPageResponse getAllPosts(PostSearchRequest search) {
-        Pageable pageable = PageRequest.of(search.getPage(), search.getSize());
+    public PostPageResponse getAllPosts(PostSearchRequest postSearchRequest) {
 
-        // if author is not null -> findByAuthor
-        // if keyword is not null -> findByTitleContaining
 
-        Page<PostResponse> page;
+        Page<PostResponse> searched = postRepository.search(postSearchRequest);
 
-        if (search.getKeyword() != null && search.getAuthor() != null) {
-//            page = postRepository.findByTitleContainsAndAuthor(search.getKeyword(), search.getAuthor(), pageable).map(PostResponse::from);
-            page = postRepository.searchByAuthorAndTitle(search.getAuthor(), search.getKeyword(), pageable).map(PostResponse::from);
-        } else if (search.getKeyword() != null) {
-            page = postRepository.findByTitleContaining(search.getKeyword(), pageable)
-                    .map(PostResponse::from);
-        } else if (search.getAuthor() != null) {
-            page = postRepository.findByAuthor(search.getAuthor(), pageable).map(PostResponse::from);
-        } else if (search.getCreatedAt() != null) {
-//            page = postRepository.findByCreatedAtAfter(search.getCreatedAt(), pageable).map(PostResponse::from);
-//            page = postRepository.searchByCreatedAtAfter(search.getCreatedAt(), pageable).map(PostResponse::from);
-            page = postRepository.searchByCreatedAtWithQueryDSL(search.getCreatedAt(), pageable).map(PostResponse::from);
-        } else {
-            page = postRepository.findAll(pageable).map(PostResponse::from);
-        }
 
-        //SELECT
-
-        return PostPageResponse.from(page.getContent(), search, page.getTotalElements());
+        return PostPageResponse.from(searched.getContent(), postSearchRequest, searched.getTotalElements());
     }
+
 
     @Transactional(readOnly = true)
     public PostResponse getPostById(Long id) {

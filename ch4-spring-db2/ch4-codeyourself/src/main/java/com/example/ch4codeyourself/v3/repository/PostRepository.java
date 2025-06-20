@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
+//@Repository
 public interface PostRepository extends JpaRepository<Post, Long>, PostQueryRepository {
     // 자동 생성 메서드 (= JPA가 메서드명만 보고 자동으로 만들어줌)
     Page<Post> findByTitleContaining(String keyword, Pageable pageable);
@@ -34,5 +34,6 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostQueryRepo
 
     @Query("SELECT p FROM Post p WHERE p.createdAt >= :createdAt")
     Page<Post> searchByCreatedAtAfter(@Param("createdAt") LocalDateTime createdAt, Pageable pageable);
+
 
 }

@@ -1,20 +1,22 @@
 package com.example.ch4labs.service;
 
+import com.example.ch4labs.domain.Comment;
 import com.example.ch4labs.domain.Review;
-import com.example.ch4labs.dto.ReviewCreateRequest;
-import com.example.ch4labs.dto.ReviewResponse;
-import com.example.ch4labs.dto.ReviewUpdateRequest;
-import com.example.ch4labs.repository.ReviewRepository;
+import com.example.ch4labs.dto.comment.CommentPageResponse;
+import com.example.ch4labs.dto.comment.CommentSearchRequest;
+import com.example.ch4labs.dto.review.*;
+import com.example.ch4labs.repository.comment.CommentRepository;
+import com.example.ch4labs.repository.review.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final CommentRepository commentRepository;
 
     public ReviewResponse createReview(ReviewCreateRequest reviewCreateRequest) {
         Review save = reviewRepository.save(reviewCreateRequest.toDomain());
@@ -23,10 +25,10 @@ public class ReviewService {
     }
 
 
-    public List<ReviewResponse> findAll() {
-        List<Review> all = reviewRepository.findAll();
+    public ReviewPageResponse findAll(ReviewSearchRequest reviewSearchRequest) {
+        Page<Review> search = reviewRepository.search(reviewSearchRequest);
 
-        return all.stream().map(ReviewResponse::from).collect(Collectors.toList());
+        return ReviewPageResponse.from(search, reviewSearchRequest.getPage());
     }
 
     public ReviewResponse update(long id, ReviewUpdateRequest reviewUpdateRequest) {
@@ -51,5 +53,23 @@ public class ReviewService {
 
     public Review getReviewById(long id) {
         return reviewRepository.findById(id).orElse(null);
+    }
+
+    public ReviewAndCommentResponse findById(long reviewId, ReviewSingleRequest reviewSingleRequest) {
+        Review reviewById = getReviewById(reviewId);
+        Page<Comment> comments = null;
+        CommentPageResponse commentPageResponse = null;
+        if (reviewSingleRequest.isIncludeComments()) {
+            //true
+            CommentSearchRequest commentSearchRequest = new CommentSearchRequest();
+            commentSearchRequest.setPage(reviewSingleRequest.getCommentPage());
+            commentSearchRequest.setSize(reviewSingleRequest.getCommentSize());
+            comments = commentRepository.searchCommentByReviewId(commentSearchRequest, reviewId);
+        }
+        if (comments != null) {
+            commentPageResponse = CommentPageResponse.from(comments);
+        }
+
+        return ReviewAndCommentResponse.from(ReviewResponse.from(reviewById), commentPageResponse);
     }
 }

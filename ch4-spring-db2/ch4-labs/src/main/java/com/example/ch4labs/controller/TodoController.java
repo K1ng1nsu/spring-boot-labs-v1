@@ -1,9 +1,8 @@
 package com.example.ch4labs.controller;
 
-import com.example.ch4labs.dto.TodoCreateRequest;
-import com.example.ch4labs.dto.TodoResponse;
-import com.example.ch4labs.dto.TodoSearchRequest;
-import com.example.ch4labs.dto.TodoUpdateRequest;
+import com.example.ch4labs.dto.todo.TodoCreateRequest;
+import com.example.ch4labs.dto.todo.TodoSearchRequest;
+import com.example.ch4labs.dto.todo.TodoUpdateRequest;
 import com.example.ch4labs.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity // DB의 테이블과 매핑 (posts)
+//@Entity // DB의 테이블과 매핑 (posts)
 @Table(name = "posts")
 public class Post {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

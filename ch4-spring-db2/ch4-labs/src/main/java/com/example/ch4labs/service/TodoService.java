@@ -1,10 +1,10 @@
 package com.example.ch4labs.service;
 
 import com.example.ch4labs.domain.Todo;
-import com.example.ch4labs.dto.TodoCreateRequest;
-import com.example.ch4labs.dto.TodoResponse;
-import com.example.ch4labs.dto.TodoSearchRequest;
-import com.example.ch4labs.dto.TodoUpdateRequest;
+import com.example.ch4labs.dto.todo.TodoCreateRequest;
+import com.example.ch4labs.dto.todo.TodoResponse;
+import com.example.ch4labs.dto.todo.TodoSearchRequest;
+import com.example.ch4labs.dto.todo.TodoUpdateRequest;
 import com.example.ch4labs.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
