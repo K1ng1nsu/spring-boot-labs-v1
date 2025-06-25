@@ -3,6 +3,7 @@ package com.example.ch4labs.controller;
 import com.example.ch4labs.domain.ReComment;
 import com.example.ch4labs.dto.ReCommentCreateRequest;
 import com.example.ch4labs.dto.ReCommentUpdateRequest;
+import com.example.ch4labs.dto.RecommentPageRequest;
 import com.example.ch4labs.service.ReCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,11 @@ public class ReCommentController {
     }
 
     @GetMapping("/comments/{commentId}/recomments")
-    public ResponseEntity<?> getReComments(@PathVariable long commentId) {
-        return null;
+    public ResponseEntity<?> getReComments(@PathVariable long commentId, RecommentPageRequest recommentPageRequest) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(reCommentService.getReComments(commentId, recommentPageRequest));
     }
+
     @GetMapping("/recomments/{recommentId}")
     public ResponseEntity<?> getReComment(@PathVariable long recommentId) {
 

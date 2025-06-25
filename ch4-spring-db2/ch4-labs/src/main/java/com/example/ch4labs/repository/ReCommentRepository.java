@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReCommentRepository extends JpaRepository<ReComment, Long> {
+public interface ReCommentRepository extends JpaRepository<ReComment, Long>, ReCommentRepositoryQueryDSL {
 
 }

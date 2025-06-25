@@ -2,14 +2,12 @@ package com.example.ch4labs.service;
 
 import com.example.ch4labs.domain.Comment;
 import com.example.ch4labs.domain.ReComment;
-import com.example.ch4labs.dto.ReCommentCreateRequest;
-import com.example.ch4labs.dto.ReCommentPageResponse;
-import com.example.ch4labs.dto.ReCommentResponse;
-import com.example.ch4labs.dto.ReCommentUpdateRequest;
+import com.example.ch4labs.dto.*;
 import com.example.ch4labs.repository.ReCommentRepository;
 import com.example.ch4labs.repository.comment.CommentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,11 +34,13 @@ public class ReCommentService {
         reCommentRepository.deleteById(recommentId);
     }
 
-    public ReCommentPageResponse getReComments() {
+    public ReCommentPageResponse getReComments(long commentId, RecommentPageRequest recommentPageRequest) {
 
-//        ReCommentPageResponse 만들다 끝남 06.20 16:50
+        Page<ReComment> reComments = reCommentRepository.searchRecommentByCommentId(commentId, recommentPageRequest);
+        // 메소드 구현 해야함 06.23 10:10
 
-        return null;
+
+        return ReCommentPageResponse.from(reComments);
     }
 
     public ReCommentResponse getReComment(long recommentId) {
